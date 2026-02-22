@@ -158,7 +158,6 @@ def main() -> None:
         gain = 100.0 * (gz_r - gz_h) / gz_r
         print(f"\nCompression gain (Hilbert vs raster): {gain:.2f}%")
 
-    # Optional: show "global" reduction relative to raw 8-bit grayscale payload
     raw_gray_bytes = w * h  # 1 byte per pixel (uint8 grayscale)
     global_reduction = 100.0 * (raw_gray_bytes - gz_h) / raw_gray_bytes
     print(f"Global reduction vs raw 8-bit grayscale (Hilbert dither + gzip): {global_reduction:.2f}%")

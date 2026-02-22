@@ -40,10 +40,10 @@ Guiding the dithering algorithm (Atkinson) along a Hilbert curve preserves 2D sp
 - **Global size reduction:** Compressing the 1-bit Hilbert-dithered image reduces the original raw 8-bit image size by **up to 89%**.
 - Complexity analysis (`benchmarks/`) shows that the Morton path is roughly 10× faster to compute than Hilbert, but at the cost of reduced compression efficiency due to larger spatial jumps.
   **Algorithmic Performance Benchmarks:**
-![Sorting Benchmark](assets/benchmark_sorting_comparison.png)
+![Sorting Benchmark](data/output/benchmark_sorting_comparaison.png)
 *Time to sort 64 RGB colors using different space-filling curves*
 
-![Time Complexity](assets/benchmark_time_complexity.png)
+![Time Complexity](data/output/benchmark_time_complexity.png)
 *Computation time scaling: Morton is ~10× faster than Hilbert, but Hilbert provides superior spatial locality for compression*
 
 ## 📂 Repository Structure

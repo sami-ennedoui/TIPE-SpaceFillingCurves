@@ -4,46 +4,90 @@
 ![Mathématiques](https://img.shields.io/badge/Math%C3%A9matiques-Mod%C3%A9lisation-orange)
 ![TIPE](https://img.shields.io/badge/TIPE-2025-success)
 
-##  À propos du projet
-Ce dépôt contient le code source de mon projet TIPE. Il explore les propriétés mathématiques des **courbes remplissant l'espace** (Hilbert, Morton/Z-Order, Peano) et propose une implémentation logicielle de leurs applications en **traitement d'images**, en **tramage (dithering)** et en **optimisation de la compression sans perte**.
 
-L'objectif de ce projet est de démontrer comment la modification du parcours spatial d'une image matricielle classique (de linéaire vers fractal) permet d'optimiser l'efficacité des algorithmes standards de compression et de traitement.
+##  About The Project
+This repository contains the source code and analysis for my **TIPE (Travaux d'Initiative Personnelle Encadrés)** project. It explores the mathematical properties of **space-filling curves** (specifically Hilbert, Morton/Z-Order, and Peano curves) and proposes a software implementation of their applications in **image processing**, **dithering**, and **lossless compression optimization**.
 
-##  Architecture Fonctionnelle
+The main objective is to demonstrate how changing the spatial traversal of a standard matrix image (from linear to fractal) can significantly optimize the efficiency of standard data compression algorithms.
 
-Le code est structuré de manière modulaire autour de plusieurs axes :
+##  Architecture & Features
 
-### 1. Modélisation Mathématique (`src/curves.py`)
-- Génération récursive et calcul d'index pour les courbes de **Hilbert** (`hilbertcurve`), **Morton** (`pymorton`) et **Peano**.
-- Adaptation de ces parcours bijectifs $[0,1] \to [0,1]^2$ aux grilles discrètes (images matricielles).
+The codebase is structured modularly around several key components:
 
-### 2. Traitement d'Images (`src/dithering.py`)
-Implémentation complète d'algorithmes de diffusion d'erreurs :
-- **Algorithme d'Atkinson** (adapté pour suivre les parcours fractals générés).
-- **Algorithme de Floyd-Steinberg**.
-- Passage en niveaux de gris et quantification N-bits (`src/utils_image.py`).
+### 1. Mathematical Modeling (`src/curves/`)
+- Recursive generation and coordinate calculation for **Hilbert**, **Morton**, and **Peano** curves.
+- Adaptation of these bijective mappings $f: [0,1] \to [0,1]^2$ to discrete pixel grids.
 
-### 3. Métriques et Compression (`src/compression.py`)
-- Calcul de l'**entropie de Shannon** avec `scipy.stats` sur les images traitées.
-- Simulation d'un pipeline de compression sans perte en comparant le poids brut (`.raw`) avec l'encodage `gzip`.
+### 2. Image Processing (`src/processing/`)
+Complete implementation of error-diffusion algorithms:
+- **Atkinson Algorithm** (adapted to follow generated fractal paths).
+- **Floyd-Steinberg Algorithm**.
+- Grayscale conversion and N-bit color quantization.
 
-### 4. Tri Lexicographique des Couleurs (`src/color_sorting.py`)
-- Expérimentations sur le tri de palettes RGB (64 couleurs) via différentes heuristiques : *Sweep* (lexicographique), *Scan* (boustrophédon), et parcours fractals (Hilbert, Morton).
+### 3. Metrics & Compression (`src/metrics/`)
+- Calculation of **Shannon Entropy** using `scipy.stats` on processed images.
+- Simulation of a lossless compression pipeline by comparing raw payload size with `gzip` encoding.
 
-##  Résultats Principaux
+### 4. Color Palette Sorting (`src/processing/color_sorting.py`)
+- Experiments on sorting RGB palettes (64 colors) using different heuristics: *Sweep* (lexicographical), *Scan* (boustrophedon), and fractal paths (Hilbert, Morton).
 
-L'approche de dithering (Atkinson) guidée par la courbe de Hilbert préserve la localité bidimensionnelle bien mieux qu'un parcours linéaire ("Serpent"). 
+##  Key Results
 
-**Sur une image de test classique :**
-- Réduction spectaculaire du poids du fichier post-compression GZIP.
-- **Réduction totale mesurée : jusqu'à -88.9 %** du poids de l'image (de ~38 Ko à ~4 Ko).
-- L'étude de complexité (`benchmarks/`) montre que le parcours de Morton est environ 10× plus rapide à calculer que Hilbert, au prix d'une perte d'efficience sur la compression (sauts spatiaux plus importants).
+Guiding the dithering algorithm (Atkinson) along a Hilbert curve preserves 2D spatial locality much better than a standard linear scan ("Raster/Serpent"). This spatial grouping of similar pixels allows run-length encoding compressors (like GZIP) to perform exceptionally well.
 
-##  Installation
-
-Clonez ce dépôt et installez les dépendances requises :
-
-```bash
-git clone https://github.com/ton-pseudo/TIPE-SpaceFillingCurves.git
+**Performance on a standard test image:**
+- Algorithmic gain (Hilbert vs. Linear traversal) for the exact same dithering method: **~3.2% additional compression**.
+- **Global size reduction:** Compressing the 1-bit Hilbert-dithered image reduces the original raw 8-bit image size by **up to 89%**.
+- Complexity analysis (`benchmarks/`) shows that the Morton path is roughly 10× faster to compute than Hilbert, but at the cost of reduced compression efficiency due to larger spatial jumps.
+  
+## 📂 Repository Structure
+```
+├── README.md                           # Main documentation
+├── requirements.txt                    # Python dependencies
+├── main_pipeline.py                    #  A recap of what the project is about
+├── notebooks/
+│   └── demo_TIPE.ipynb                 #  Interactive Jupyter Notebook demo
+├── presentation/                       # TIPE presentation slides
+├── data/
+│   ├── input/                          # Source images (hopper.png)
+│   └── output/                         # Processed/compressed images
+├── benchmarks/                         # Algorithmic complexity scripts
+│   ├── complexite_temporelle.py        # Hilbert vs. Morton computation time
+│   └── complexite_tri.py               # Sorting heuristics benchmark
+└── src/                                # Core modules package
+    ├── curves/                         # Trajectory generation (Hilbert, Morton, Peano)
+    ├── processing/                     # Dithering and color manipulation
+    └── metrics/                        # Entropy and compression analysis
+```
+## Installation
+Make sure you have Python 3.8+ installed. Clone this repository and install the dependencies:
+```
+git clone https://github.com/sami-ennedoui/TIPE-SpaceFillingCurves.git
 cd TIPE-SpaceFillingCurves
 pip install -r requirements.txt
+
+```
+## Quick start guide
+#### 1. Run the end to end pipeline
+The main script executes the full processing chain: image loading, dithering (Hilbert vs. Linear), entropy calculation, and data export:
+```
+cd TIPE-SpaceFillingCurves
+python main_pipeline.py
+
+```
+#### 2. Interactive Demo
+For a visual exploration of the algorithms, check out the Jupyter Notebook:
+```
+jupyter notebook notebooks/demo_TIPE.ipynb
+```
+#### 3. Algorithmic benchmarks
+To reproduce the time complexity studies:
+```
+python benchmarks/complexite_temporelle.py
+python benchmarks/complexite_tri.py
+```
+## Built with 
+- `numpy`, `scipy` (Matrix calculations, statistics, and entropy)
+- `Pillow` (Image I/O manipulation)
+- `matplotlib`, `reportlab` (Datavisualization and PDF generation)
+- `Hilbertcurve`, `pymorton` (Generation of the Hilbert and morton ordering)

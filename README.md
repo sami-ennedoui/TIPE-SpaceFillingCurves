@@ -65,7 +65,6 @@ Make sure you have Python 3.8+ installed. Clone this repository and install the 
 git clone https://github.com/sami-ennedoui/TIPE-SpaceFillingCurves.git
 cd TIPE-SpaceFillingCurves
 pip install -r requirements.txt
-
 ```
 ## Quick start guide
 #### 1. Run the end to end pipeline
@@ -73,7 +72,6 @@ The main script executes the full processing chain: image loading, dithering (Hi
 ```
 cd TIPE-SpaceFillingCurves
 python main_pipeline.py
-
 ```
 #### 2. Interactive Demo
 For a visual exploration of the algorithms, check out the Jupyter Notebook:

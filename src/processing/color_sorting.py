@@ -55,16 +55,16 @@ methods = {
 
 # Create PDF visualizations
 for method_name, ordered_colors in methods.items():
-    with PdfPages(f'{method_name}color.pdf') as pdf:
-        fig, ax = plt.subplots(figsize=(12, 2))
-        
-        for i, color in enumerate(ordered_colors):
-            ax.add_patch(plt.Rectangle((i, 0), 1, 1, color=np.array(color)/255))
-            if i % 8 == 0: 
-                ax.axvline(i, color='white', linestyle=':', alpha=0.5)
-        
-        ax.set_xlim(0, len(ordered_colors))
-        ax.set_ylim(0, 1)
-        ax.axis('off')
-        pdf.savefig(fig, bbox_inches='tight')
-        plt.close()
+    fig, ax = plt.subplots(figsize=(12, 2))
+    for i, color in enumerate(ordered_colors):
+        ax.add_patch(plt.Rectangle((i, 0), 1, 1, color=np.array(color)/255))
+        if i % 8 == 0:
+            ax.axvline(i, color='white', linestyle=':', alpha=0.5)
+
+    ax.set_xlim(0, len(ordered_colors))
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+
+    # Save as PNG instead of PDF
+    plt.savefig(f'{method_name}_color_sort.png', bbox_inches='tight', dpi=150)
+    plt.close()

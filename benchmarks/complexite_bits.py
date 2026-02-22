@@ -58,5 +58,7 @@ plt.title("Benchmark Hilbert vs Morton")
 plt.grid(True)
 plt.legend()
 plt.tight_layout()
-plt.savefig("benchmark_CRE.pdf")
+plt.savefig("../data/output/benchmark_time_complexity.png", dpi=150, bbox_inches='tight')
+plt.savefig("benchmark_CRE.pdf")  # Keep PDF for archival
 plt.show()
+

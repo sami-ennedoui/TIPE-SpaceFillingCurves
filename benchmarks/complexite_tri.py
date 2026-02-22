@@ -73,5 +73,6 @@ plt.ylabel("Temps de tri (secondes)")
 plt.title("Temps de tri pour 64 couleurs RGB (4 valeurs / canal)")
 plt.grid(axis='y')
 plt.tight_layout()
-plt.savefig("benchmark_sweep_scan_hilbert_morton.pdf")
+plt.savefig("../data/output/benchmark_sorting_comparison.png", dpi=150, bbox_inches='tight')
+plt.savefig("benchmark_sorting_comparison.pdf")  # Keep PDF for archival
 plt.show()
